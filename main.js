@@ -1,4 +1,4 @@
-//  분석 버튼!
+//  분석 버튼
 const analysis = document.getElementById('analysis');
 //  초기화 버튼
 const white_btn = document.getElementById('white-btn');
