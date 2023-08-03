@@ -18,7 +18,33 @@ const chat_list = document.getElementById('chat-list');
 const chat_input = document.getElementById('chat-input');
 const chat_text = document.getElementById('chat-text');
 
+const loading = document.getElementById('loading');
+const loading_bar = document.getElementById('loading-bar');
+
 let len = 0
+
+
+
+let currentRotation = 0;
+const rotationSpeed = 1;
+
+let rotationInterval;
+
+function rotateImage() {
+    currentRotation += rotationSpeed;
+    loading_bar.style.transform = `rotate(${currentRotation}deg)`;}
+
+function startRotation() {
+    if (!rotationInterval) {
+        rotationInterval = setInterval(rotateImage, 10); // 10ms마다 이미지 회전
+    }
+}
+
+function stopRotation() {
+    clearInterval(rotationInterval);
+    rotationInterval = null;
+}
+
 
 
 context_box.addEventListener('input', () => {
@@ -43,8 +69,6 @@ analysis.addEventListener('click', () => {
 
 main_btn.addEventListener('click', () => {
     modal.classList.add('active');
-    const clonedBox = result_box_list.querySelector('li:first-child').textContent
-    chat_list.innerHTML += `<li><span class="icon"></span><p class="interviewer">${clonedBox}</p></li>`;
 })
 
 modal_close.addEventListener('click', () => {
@@ -56,17 +80,16 @@ chat_input.addEventListener('submit', event => {
 
     let text = chat_text.value;
 
-
     chat_text.value = '';
     chat_list.innerHTML += `<li class="interviewee"><p>${text}</p></li>`;
     chat_list.lastElementChild.scrollIntoView({ behavior: "smooth" })
-    chat_text.setAttribute("readonly", true);
     server_chat(text)
-    chat_text.removeAttribute("readonly");
 })
 
 
 async function server(context) {
+    loading.classList.add('active')
+    startRotation()
     await fetch('http://127.0.0.1:8000/test', {
         method: "POST",
         headers: {
@@ -84,17 +107,22 @@ async function server(context) {
         })
         .then(datas => {
             // 여기는 백 오면 수정
-
             datas.forEach(data => {
                 console.log(data)
                 //  대답이 면접관 텍스트로 들어가는 과정
                 result_box_list.innerHTML += `<li>${data}</li>`;
             });
         })
+        .then(() => {
+            const clonedBox = result_box_list.querySelector('li:first-child').textContent
+            chat_list.innerHTML += `<li><span class="icon"></span><p class="interviewer">${clonedBox}</p></li>`;
+            loading.classList.remove('active');
+            stopRotation();
+        })
 }
 
 async function server_chat(context) {
-    context_box.setAttribute("readonly", "readonly");
+    chat_text.setAttribute("readonly", "readonly");
     await fetch('http://127.0.0.1:8000/chat', {
         method: "POST",
         headers: {
@@ -111,15 +139,13 @@ async function server_chat(context) {
             return response.json();
         })
         .then(datas => {
-            // 여기는 백 오면 수정
-            let data_list = '';
             datas.forEach(data => {
-                console.log(data)
-
                 //  대답이 면접관 텍스트로 들어가는 과정
                 chat_list.innerHTML += `<li class="interviewer_li"><span class="icon"></span><p class="interviewer">${data}</p></li>`;
                 chat_list.lastElementChild.scrollIntoView({ behavior: "smooth" })
-                context_box.removeAttribute("readonly");
             });
+        })
+        .then(() => {
+            chat_text.removeAttribute("readonly");
         })
 }
