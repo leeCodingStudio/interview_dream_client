@@ -251,7 +251,7 @@ main {
     padding-top: 30px;
 }
 
-.chat-list>li:nth-child(even) {
+.chat-list>.interviewee {
     align-self: flex-end;
 }
 
@@ -274,7 +274,7 @@ main {
     background-color: #e5e1ff;
 }
 
-.interviewer {
+.interviewer_li {
     align-self: flex-start;
 }
 
