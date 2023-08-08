@@ -85,21 +85,21 @@ chat_input.addEventListener('submit', event => {
     let text = chat_text.value;
     console.log(text)
     if (text === '다음') {
-        chat_input.value = ''
+        chat_text.value = ''
         count_idx++
         chat_list.innerHTML += `<li class="interviewer_li"><span class="icon"></span><p class="interviewer">${result_box_list.children[count_idx].cloneNode(true).textContent}</p></li>`;
         chat_list.lastElementChild.scrollIntoView({ behavior: "smooth" })
     } else {
+        ggory++
+        chat_text.value = '';
+        chat_list.innerHTML += `<li class="interviewee"><p>${text}</p></li>`;
+        chat_list.lastElementChild.scrollIntoView({ behavior: "smooth" })
         if (ggory > 2) {
             count_idx++
             chat_list.innerHTML += `<li class="interviewer_li"><span class="icon"></span><p class="interviewer">${result_box_list.children[count_idx].cloneNode(true).textContent}</p></li>`;
             ggory = 0
             chat_list.lastElementChild.scrollIntoView({ behavior: "smooth" })
         } else {
-            ggory++
-            chat_text.value = '';
-            chat_list.innerHTML += `<li class="interviewee"><p>${text}</p></li>`;
-            chat_list.lastElementChild.scrollIntoView({ behavior: "smooth" })
             server_chat(text)
         }
     }
