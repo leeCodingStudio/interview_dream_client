@@ -160,6 +160,9 @@ async function server_chat(context) {
         .then(datas => {
             datas.forEach(data => {
                 //  대답이 면접관 텍스트로 들어가는 과정
+                if(data == '없음'){
+                    data = result_box_list.children[count_idx].cloneNode(true).textContent
+                }
                 chat_list.innerHTML += `<li class="interviewer_li"><span class="icon"></span><p class="interviewer">${data}</p></li>`;
                 chat_list.lastElementChild.scrollIntoView({ behavior: "smooth" })
             });
