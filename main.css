@@ -291,6 +291,16 @@ main {
     border-radius: 100%;
 }
 
+#chat_loading p {
+    background-image: url('https://i.pinimg.com/originals/b4/4e/22/b44e229598a8bdb7f2f432f246fb0813.gif');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 30px;
+
+    -webkit-filter: opacity(.5) drop-shadow(0 0 0 #e5e1ff);
+    filter: opacity(.5) drop-shadow(0 0 0 #e5e1ff)
+}
+
 /* 채팅 입력 */
 .chat-input input {
     margin-top: 40px;

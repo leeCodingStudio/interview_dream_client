@@ -21,6 +21,9 @@ const chat_text = document.getElementById('chat-text');
 const loading = document.getElementById('loading');
 const loading_bar = document.getElementById('loading-bar');
 
+// const path = 'https://choyunjae-chatbot.koyeb.app/';
+const path = 'http://127.0.0.1:8000/';
+
 let len = 0
 let count_idx = 0
 
@@ -109,7 +112,7 @@ chat_input.addEventListener('submit', event => {
 async function server(context) {
     loading.classList.add('active')
     startRotation()
-    await fetch('https://choyunjae-chatbot.koyeb.app/test', {
+    await fetch(`${path}test`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -142,7 +145,9 @@ async function server(context) {
 
 async function server_chat(context) {
     chat_text.setAttribute("readonly", "readonly");
-    await fetch('https://choyunjae-chatbot.koyeb.app/chat', {
+    chat_list.innerHTML += chat_loading();
+    chat_list.lastElementChild.scrollIntoView({ behavior: "smooth" })
+    await fetch(`${path}chat`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -158,6 +163,8 @@ async function server_chat(context) {
             return response.json();
         })
         .then(datas => {
+            let chat_loading = document.getElementById('chat_loading')
+            chat_loading.parentNode.removeChild(chat_loading);
             datas.forEach(data => {
                 //  대답이 면접관 텍스트로 들어가는 과정
                 if (data == 'Nan') {
@@ -176,3 +183,11 @@ async function server_chat(context) {
             chat_text.removeAttribute("readonly");
         })
 }
+
+function chat_loading() {
+    let chat = `<li class="interviewer_li" id="chat_loading"><span class="icon"></span><p class="interviewer"></p></li>`
+
+    return chat
+}
+
+
