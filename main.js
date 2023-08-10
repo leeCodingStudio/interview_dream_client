@@ -124,8 +124,7 @@ async function server(context) {
     })
         .then(response => {
             if (!response.ok) {
-                alert('서버 에러! 잠시 후 이용하여 주세요.');
-                location.reload();
+                throw new Error("Network response was not ok");
             }
             return response.json();
         })
