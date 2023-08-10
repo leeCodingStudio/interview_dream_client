@@ -21,8 +21,8 @@ const chat_text = document.getElementById('chat-text');
 const loading = document.getElementById('loading');
 const loading_bar = document.getElementById('loading-bar');
 
-const path = 'https://choyunjae-chatbot.koyeb.app/';
-// const path = 'http://127.0.0.1:8000/';
+// const path = 'https://choyunjae-chatbot.koyeb.app/';
+const path = 'http://127.0.0.1:8000/';
 
 let len = 0
 let count_idx = 0
@@ -115,15 +115,17 @@ async function server(context) {
     await fetch(`${path}test`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             "context": context
-        })
+        }),
+        credentials: 'include'
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error("Network response was not ok");
+                alert('서버 에러! 잠시 후 이용하여 주세요.');
+                location.reload();
             }
             return response.json();
         })
@@ -154,7 +156,8 @@ async function server_chat(context) {
         },
         body: JSON.stringify({
             "context": context
-        })
+        }),
+        credentials: 'include'
     })
         .then(response => {
             if (!response.ok) {
