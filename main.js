@@ -21,8 +21,8 @@ const chat_text = document.getElementById('chat-text');
 const loading = document.getElementById('loading');
 const loading_bar = document.getElementById('loading-bar');
 
-// const path = 'https://choyunjae-chatbot.koyeb.app/';
-const path = 'http://127.0.0.1:8000/';
+const path = 'https://choyunjae-chatbot.koyeb.app/';
+// const path = 'http://127.0.0.1:8000/';
 
 let len = 0
 let count_idx = 0
