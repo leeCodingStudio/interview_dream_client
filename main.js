@@ -120,7 +120,6 @@ async function server(context) {
         body: JSON.stringify({
             "context": context
         }),
-        credentials: 'include'
     })
         .then(response => {
             if (!response.ok) {
@@ -156,7 +155,6 @@ async function server_chat(context) {
         body: JSON.stringify({
             "context": context
         }),
-        credentials: 'include'
     })
         .then(response => {
             if (!response.ok) {
